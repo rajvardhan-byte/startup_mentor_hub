@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-4">Available Mentors</h2>
+<div class="row">
+    {% for mentor in mentors %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100 border-0">
+            <div class="card-body">
+                <h5 class="card-title fw-bold">{{ mentor.name }}</h5>
+                <span class="badge bg-primary mb-2">{{ mentor.expertise or 'General Advisory' }}</span>
+                <p class="card-text text-muted small mt-2">{{ mentor.bio or 'Experienced mentor ready to guide entrepreneurs.' }}</p>
+
+                {% if user and user.role == 'entrepreneur' %}
+                <button class="btn btn-outline-primary btn-sm w-100 mt-3" data-bs-toggle="modal" data-bs-target="#bookModal{{ mentor.id }}">Book Session</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    {% if user and user.role == 'entrepreneur' %}
+    <div class="modal fade" id="bookModal{{ mentor.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ url_for('book_mentor', mentor_id=mentor.id) }}" method="POST">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">Book Session with {{ mentor.name }}</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Preferred Date & Time</label>
+                            <input type="datetime-local" name="booking_date" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Google Meet / Zoom Link</label>
+                            <input type="url" name="meeting_link" class="form-control" value="https://meet.google.com/new" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success fw-bold">Confirm Booking</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="col-12">
+        <p class="text-muted">No mentors registered yet.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

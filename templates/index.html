@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm text-center">
+    <h1 class="display-4 fw-bold text-primary">Startup Mentor Hub</h1>
+    <p class="lead text-muted">Bridge the gap between ambitious startup founders and experienced industry mentors.</p>
+    {% if not user %}
+        <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg me-2">Get Started</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg">Login</a>
+    {% else %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn-success btn-lg">Go to My Dashboard</a>
+    {% endif %}
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm p-3 h-100">
+            <h3 class="display-6">👥</h3>
+            <h5 class="fw-bold">Mentor Matching</h5>
+            <p class="small text-muted">Connect directly with industry leaders and schedule 1-on-1 sessions.</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm p-3 h-100">
+            <h3 class="display-6">💡</h3>
+            <h5 class="fw-bold">Pitch Reviews</h5>
+            <p class="small text-muted">Submit your business plan and receive structured mentor feedback.</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm p-3 h-100">
+            <h3 class="display-6">📺</h3>
+            <h5 class="fw-bold">Free & Paid Learning</h5>
+            <p class="small text-muted">Access free YouTube tutorials and paid specialized mentor courses.</p>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card border-0 shadow-sm p-3 h-100">
+            <h3 class="display-6">📊</h3>
+            <h5 class="fw-bold">Growth Tracking</h5>
+            <p class="small text-muted">Set milestones and track your startup's execution progress.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

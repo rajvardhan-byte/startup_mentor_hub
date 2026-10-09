@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Create an Account</h4>
+            </div>
+            <div class="card-body p-4">
+                <form action="{{ url_for('register') }}" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Full Name</label>
+                        <input type="text" name="name" class="form-control" required placeholder="John Doe">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email Address</label>
+                        <input type="email" name="email" class="form-control" required placeholder="john@example.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Select Role</label>
+                        <select name="role" class="form-select" id="roleSelect" onchange="toggleMentorFields()" required>
+                            <option value="entrepreneur">Entrepreneur / Founder</option>
+                            <option value="mentor">Mentor / Industry Expert</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" id="expertiseField" style="display: none;">
+                        <label class="form-label fw-bold">Area of Expertise (For Mentors)</label>
+                        <input type="text" name="expertise" class="form-control" placeholder="e.g., Venture Capital, AI/ML, Marketing, Legal">
+                    </div>
+                    <div class="mb-3" id="bioField" style="display: none;">
+                        <label class="form-label fw-bold">Short Bio</label>
+                        <textarea name="bio" class="form-control" rows="2" placeholder="Tell entrepreneurs about your background..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold">Register Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleMentorFields() {
+    var role = document.getElementById('roleSelect').value;
+    var exp = document.getElementById('expertiseField');
+    var bio = document.getElementById('bioField');
+    var isMentor = (role === 'mentor');
+    exp.style.display = isMentor ? 'block' : 'none';
+    bio.style.display = isMentor ? 'block' : 'none';
+}
+</script>
+{% endblock %}

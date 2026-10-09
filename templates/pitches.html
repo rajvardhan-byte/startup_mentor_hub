@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Startup Pitch Showcase</h2>
+    {% if user and user.role == 'entrepreneur' %}
+    <button class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#pitchModal">+ Submit New Pitch</button>
+    {% endif %}
+</div>
+
+<div class="row">
+    {% for pitch in pitches %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-0">
+            <div class="card-body">
+                <h5 class="fw-bold text-dark">{{ pitch.title }}</h5>
+                <p class="card-text text-muted">{{ pitch.description }}</p>
+                <hr>
+                <h6 class="fw-bold">Mentor Feedback:</h6>
+                {% if pitch.feedback %}
+                    <div class="bg-light p-2 rounded text-success border">
+                        <small><strong>Advice:</strong> {{ pitch.feedback }}</small>
+                    </div>
+                {% else %}
+                    <p class="text-muted small mb-0">Pending review from mentors...</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-muted">No startup pitches submitted yet.</p>
+    {% endfor %}
+</div>
+
+<!-- Modal for Submitting Pitch -->
+{% if user and user.role == 'entrepreneur' %}
+<div class="modal fade" id="pitchModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{{ url_for('pitches') }}" method="POST">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Submit Startup Pitch</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Startup Title</label>
+                        <input type="text" name="title" class="form-control" required placeholder="e.g., AgriTech Solutions">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Pitch Description</label>
+                        <textarea name="description" class="form-control" rows="4" required placeholder="Explain your problem, solution, and market strategy..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary fw-bold">Submit Pitch</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

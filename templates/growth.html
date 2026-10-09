@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">📈 Startup Growth & Goal Dashboard</h4>
+            </div>
+            <div class="card-body p-4">
+                <form action="{{ url_for('growth') }}" method="POST" class="d-flex mb-4">
+                    <input type="text" name="title" class="form-control me-2" placeholder="e.g., Reach 100 beta users, Launch MVP..." required>
+                    <button type="submit" class="btn btn-success text-nowrap fw-bold">Add Goal</button>
+                </form>
+
+                <ul class="list-group">
+                    {% for goal in goals %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span class="{% if goal.status == 'Completed' %}text-decoration-line-through text-muted{% endif %} fw-bold">
+                                {{ goal.title }}
+                            </span>
+                            <a href="{{ url_for('toggle_goal', goal_id=goal.id) }}" class="btn btn-sm {% if goal.status == 'Completed' %}btn-secondary{% else %}btn-outline-success{% endif %}">
+                                {{ goal.status }}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item text-muted">No growth goals added yet. Start setting roadmap milestones!</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
